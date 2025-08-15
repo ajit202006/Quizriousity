@@ -1,6 +1,6 @@
 import express from "express";
 import { body } from "express-validator";
-import { getUser, updateUser, updatePassword } from "../controllers/user";
+import { getUser, updateUser, updatePassword ,getUserDashboard, searchUser} from "../controllers/user";
 import { isAuthenticated } from "../middlewares/isAuth";
 
 // routing /user queries
@@ -38,5 +38,16 @@ router.put("/update_password", isAuthenticated, [
         })
 ], updatePassword)
 
+// getting user dashboard
+
+router.get("/:userId/dashboard", isAuthenticated, getUserDashboard);
+
+// searching a user
+router.post('/search',isAuthenticated,[
+    body("userName")
+    .trim()
+    .notEmpty()
+    .withMessage("Enter a name to search")
+],searchUser);
 
 export default router;
