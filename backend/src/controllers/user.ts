@@ -66,9 +66,9 @@ const updatePassword = async (req: Request, res: Response, next: NextFunction) =
         }
 
         const validationError = validationResult(req);
-        if (!validationError.isEmpty()){
+        if (!validationError.isEmpty()) {
             const err = new ProjectError("Validation failed!");
-            err.statusCode= 422;
+            err.statusCode = 422;
             err.data = validationError.array();
             throw err;
         }
@@ -80,7 +80,7 @@ const updatePassword = async (req: Request, res: Response, next: NextFunction) =
             err.statusCode = 401;
             throw err;
         }
-        
+
         const password = req.body.current_password;
         const status = await bcrypt.compare(password, user.password);
         if (!status) {
@@ -98,4 +98,46 @@ const updatePassword = async (req: Request, res: Response, next: NextFunction) =
     }
 }
 
-export { getUser, updateUser, updatePassword };
+const getUserDashboard = async (req: Request, res: Response, next: NextFunction) => {
+    let resp: ReturnResponse;
+    try {
+        const userId = req.params.userId;
+        const user = await User.findById(userId, { name: 1, createdQuizCount: 1, attemptedQuizCount: 1, passedCount: 1,_id: 0 });
+        if (!user) {
+            const err = new ProjectError("User not found");
+            err.statusCode = 401;
+            throw err;
+        }
+        resp = { status: "success", message: "User found", data: {user:{user}} };
+        res.send(resp)
+    } catch (error) {
+        next(error);
+    }
+}
+
+const searchUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+
+        const validationError = validationResult(req);
+        if (!validationError.isEmpty()){
+            const err = new ProjectError("Validation failed!");
+            err.statusCode=422;
+            err.data=validationError.array();
+            throw err;
+        }
+        const userName = req.body.userName;
+        const regex = new RegExp(`^${userName}`,"i");
+        const users = await User.find({name:{$regex:regex}});
+        let resp :ReturnResponse;
+        if (!users.length){
+            resp = {status:"error",message:"No user exist with given name",data:[]};
+        }else{
+            resp = {status:"success",message:"Users List",data:users};
+        }
+        res.send(resp);
+    } catch (error) {
+        next(error);
+    }
+}
+
+export { getUser, updateUser, updatePassword, getUserDashboard, searchUser };
