@@ -1,9 +1,0 @@
-{
-    "env": {
-        "CONNECTION_STRING": "mongodb+srv:",
-        "PORT": 3000,
-        "NODE_ENV":"development"
-    },
-    "watch":["src"],
-    "ext":"ts,json"
-}
