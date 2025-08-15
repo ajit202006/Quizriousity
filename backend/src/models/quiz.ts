@@ -26,6 +26,11 @@ const quizSchema = new Schema(
         is_published:{
             type:Boolean,
             default:false
+        },
+        passing_percentage:{
+            type:Number,
+            default:25,
+            required:true
         }
     },
     { timestamps: true }
