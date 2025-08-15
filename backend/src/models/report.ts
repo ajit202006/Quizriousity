@@ -17,6 +17,14 @@ const reportSchema = new Schema(
         total: {
             type: Number,
             required: true
+        },
+        percentage:{
+            type: Number,
+            required: true
+        },
+        result:{
+            type:String,
+            required:true
         }
     },
     { timestamps: true }
