@@ -14,7 +14,19 @@ const userSchema = new Schema(
         password:{
             type:String,
             required:true
-        }
+        },
+        createdQuizCount:{
+            type:Number,
+            default:0
+        },
+        attemptedQuizCount:{
+            type:Number,
+            default:0
+        },
+        passedCount:{
+            type:Number,
+            default:0
+        },
     },
     {timestamps:true}
 )
