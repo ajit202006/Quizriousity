@@ -1,0 +1,91 @@
+import { Request, Response, NextFunction } from "express";
+import { validationResult } from "express-validator";
+import Review from "../models/review";
+import { ReturnResponse } from "../util/interfaces";
+import ProjectError from "../helper/ProjectError";
+import User from "../models/user";
+import Quiz from "../models/quiz";
+
+const getReviews = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const quizId = req.params.quizId;
+        const reviews = await Review.find({ quizId });
+        let resp: ReturnResponse;
+        if (!reviews.length) {
+            resp = { status: "error", message: "No reviews found", data: {} };
+        } else {
+            resp = { status: "success", message: "Reviews found", data: reviews };
+        }
+        res.send(resp);
+    } catch (error) {
+        next(error);
+    }
+}
+
+const addReview = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        let resp: ReturnResponse;
+        const validationError = validationResult(req);
+
+        if (!validationError.isEmpty()) {
+            resp = { status: "error", message: "Validation failed!", data: validationError.array() };
+            res.send(resp);
+        }
+
+        const userId = req.userId;
+        const quizId = req.params.quizId;
+        const rating = req.body.rating;
+        const feedback = req.body.feedback && "";
+
+        const quiz = await Quiz.findById(quizId, { created_by: 1 });
+        if (!quiz) {
+            const err = new ProjectError("Quiz not found");
+            err.statusCode = 401;
+            throw err;
+        }
+        if (quiz.created_by.toString() === userId) {
+            const err = new ProjectError("You cannot review your own quiz");
+            err.statusCode = 401;
+            throw err;
+        }
+
+        const review = new Review({ userId, quizId, rating, feedback });
+        const status = await review.save();
+        if (!status) {
+            resp = { status: "error", message: "Review not saved", data: {} };
+        } else {
+            resp = { status: "success", message: "Review saved", data: { reviewId: review._id } };
+        }
+        res.send(resp);
+    } catch (error) {
+        next(error)
+    }
+}
+
+const deleteReview = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userId = req.userId;
+        const reviewId = req.params.reviewId;
+        const review = await Review.findById(reviewId);
+        if (!review) {
+            const err = new ProjectError("Review not found");
+            err.statusCode = 401;
+            throw err;
+        }
+
+        if (review.userId.toString() !== userId) {
+            const err = new ProjectError("Unauthorized access");
+            err.statusCode = 401;
+            throw err;
+        }
+
+        await Review.findByIdAndDelete(reviewId);
+        const resp: ReturnResponse = { status: "success", message: "Deleted your review", data: {} };
+        res.send(resp);
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+export { getReviews, addReview, deleteReview };
