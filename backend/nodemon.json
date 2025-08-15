@@ -1,9 +1,0 @@
-{
-    "env": {
-        "CONNECTION_STRING": "mongodb+srv://ajitvishwakarma202006:xu3KqCDaWZF5JooF@cluster0.4ocqmys.mongodb.net/quiz_manager_by_me?retryWrites=true&w=majority&appName=Cluster0",
-        "PORT": 3000,
-        "NODE_ENV":"development"
-    },
-    "watch":["src"],
-    "ext":"ts,json"
-}
