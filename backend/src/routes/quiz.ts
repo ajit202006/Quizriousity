@@ -1,8 +1,8 @@
 import express from "express";
 import { body } from "express-validator";
-
 import { createQuiz, getQuiz, updateQuiz, deleteQuiz, publishQuiz } from "../controllers/quiz";
 import { isAuthenticated } from "../middlewares/isAuth";
+import { getReviews, addReview, deleteReview } from "../controllers/review";
 
 const router = express.Router();
 
@@ -64,6 +64,30 @@ router.delete('/:quizId', isAuthenticated, deleteQuiz);
 
 // publish quiz
 router.patch('/publish', isAuthenticated, publishQuiz);
+
+
+// Quiz review routes
+
+//get reviews quiz/:quizId/reviews
+router.get('/:quizId/reviews', isAuthenticated, getReviews);
+
+//add review
+router.post('/:quizId/reviews', isAuthenticated, [
+    body("rating")
+        .notEmpty()
+        .isNumeric()
+        .withMessage("Rating should be a number")
+        .custom((rating) => {
+            if (rating > 5 || rating < 0) {
+                return Promise.reject("Invalid rating enter a value in range 0 to 5");
+            } else {
+                return true;
+            }
+        })
+], addReview);
+
+//delete review
+router.delete('/:quizId/reviews/:reviewId', isAuthenticated, deleteReview);
 
 
 
