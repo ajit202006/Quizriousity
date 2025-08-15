@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import Quiz from "../models/quiz";
+import User from "../models/user";
 import ProjectError from "../helper/ProjectError";
 import { ReturnResponse } from "../util/interfaces";
 
@@ -22,6 +23,11 @@ const createQuiz = async (req: Request, res: Response, next: NextFunction) => {
 
         const quiz = new Quiz({ name, questions_list, answers, created_by });
         const result = await quiz.save();
+        const user = await User.findById(created_by,{createdQuizCount:1});
+        if(user){
+            user.createdQuizCount+=1;
+            await user.save();
+        }
         const resp: ReturnResponse = { status: "success", message: "Quiz created successfully", data: { quizId: result._id } };
         res.status(201).send(resp);
     } catch (error) {
