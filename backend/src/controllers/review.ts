@@ -3,7 +3,6 @@ import { validationResult } from "express-validator";
 import Review from "../models/review";
 import { ReturnResponse } from "../util/interfaces";
 import ProjectError from "../helper/ProjectError";
-import User from "../models/user";
 import Quiz from "../models/quiz";
 
 const getReviews = async (req: Request, res: Response, next: NextFunction) => {
@@ -35,7 +34,7 @@ const addReview = async (req: Request, res: Response, next: NextFunction) => {
         const userId = req.userId;
         const quizId = req.params.quizId;
         const rating = req.body.rating;
-        const feedback = req.body.feedback && "";
+        const feedback = req.body.feedback || "";
 
         const quiz = await Quiz.findById(quizId, { created_by: 1 });
         if (!quiz) {
@@ -48,8 +47,16 @@ const addReview = async (req: Request, res: Response, next: NextFunction) => {
             err.statusCode = 401;
             throw err;
         }
-
-        const review = new Review({ userId, quizId, rating, feedback });
+        let review;
+        const reviewExist = await Review.find({userId});
+        console.log(feedback);
+        if(reviewExist.length){
+            review = reviewExist[0];
+            review.rating = rating;
+            review.feedback = feedback;
+        }else{   
+            review = new Review({ userId, quizId, rating, feedback });
+        }
         const status = await review.save();
         if (!status) {
             resp = { status: "error", message: "Review not saved", data: {} };
@@ -65,8 +72,8 @@ const addReview = async (req: Request, res: Response, next: NextFunction) => {
 const deleteReview = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId = req.userId;
-        const reviewId = req.params.reviewId;
-        const review = await Review.findById(reviewId);
+        const review = (await Review.find({userId}))[0];
+        
         if (!review) {
             const err = new ProjectError("Review not found");
             err.statusCode = 401;
@@ -79,10 +86,9 @@ const deleteReview = async (req: Request, res: Response, next: NextFunction) => 
             throw err;
         }
 
-        await Review.findByIdAndDelete(reviewId);
+        await Review.findByIdAndDelete(review._id);
         const resp: ReturnResponse = { status: "success", message: "Deleted your review", data: {} };
         res.send(resp);
-
     } catch (error) {
         next(error);
     }
