@@ -102,7 +102,7 @@ const getUserDashboard = async (req: Request, res: Response, next: NextFunction)
     let resp: ReturnResponse;
     try {
         const userId = req.params.userId;
-        const user = await User.findById(userId, { name: 1, createdQuizCount: 1, attemptedQuizCount: 1, passedCount: 1,_id: 0 });
+        const user = await User.findById(userId, { name: 1, createdQuizCount: 1, attemptedQuizCount: 1, passedCount: 1 });
         if (!user) {
             const err = new ProjectError("User not found");
             err.statusCode = 401;
