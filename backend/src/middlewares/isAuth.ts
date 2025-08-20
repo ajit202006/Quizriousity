@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken"
 import ProjectError from "../helper/ProjectError";
 
 const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
-
     try {
         const authHeader = req.get('Authorization');
         if (!authHeader) {
@@ -11,11 +10,8 @@ const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
             err.statusCode = 401;
             throw err;
         }
-
         const token = authHeader.split(' ')[1];
-
         let decodedToken;
-
         try {
             decodedToken = <any>jwt.verify(token, "mykey");
             if (!decodedToken) {
