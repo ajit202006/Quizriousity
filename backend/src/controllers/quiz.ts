@@ -23,9 +23,9 @@ const createQuiz = async (req: Request, res: Response, next: NextFunction) => {
 
         const quiz = new Quiz({ name, questions_list, answers, created_by });
         const result = await quiz.save();
-        const user = await User.findById(created_by,{createdQuizCount:1});
-        if(user){
-            user.createdQuizCount+=1;
+        const user = await User.findById(created_by, { createdQuizCount: 1 });
+        if (user) {
+            user.createdQuizCount += 1;
             await user.save();
         }
         const resp: ReturnResponse = { status: "success", message: "Quiz created successfully", data: { quizId: result._id } };
@@ -37,6 +37,12 @@ const createQuiz = async (req: Request, res: Response, next: NextFunction) => {
 
 const getQuiz = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        if (!req.params.quizId) {
+            const quizzes = await Quiz.find({created_by:{$not:{$eq:req.userId}},is_published:true});
+            const resp: ReturnResponse = { status: "success", message: "Quiz", data: { quizzes } };
+            res.status(200).send(resp);
+            return ;
+        }
         const quizId = req.params.quizId;
         const quiz = await Quiz.findById(quizId, { name: 1, questions_list: 1, answers: 1, created_by: 1 });
         if (!quiz) {
@@ -44,7 +50,7 @@ const getQuiz = async (req: Request, res: Response, next: NextFunction) => {
             err.statusCode = 404;
             throw err;
         }
-        if (quiz.created_by.toString() !== req.userId) {
+        if (quiz?.created_by.toString() !== req.userId) {
             const err = new ProjectError("Unauthorized user");
             err.statusCode = 403;
             throw err;
@@ -59,7 +65,6 @@ const getQuiz = async (req: Request, res: Response, next: NextFunction) => {
 const updateQuiz = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const validationError = validationResult(req);
-
         if (!validationError.isEmpty()) {
             const err = new ProjectError("Validation failed!");
             err.statusCode = 422;
@@ -139,5 +144,4 @@ const publishQuiz = async (req: Request, res: Response, next: NextFunction) => {
         next(error);
     }
 }
-
-export { createQuiz, getQuiz, updateQuiz, deleteQuiz, publishQuiz };
+export { createQuiz, getQuiz, updateQuiz, deleteQuiz, publishQuiz};
