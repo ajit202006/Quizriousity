@@ -1,13 +1,13 @@
 import express from "express";
 import { body } from "express-validator";
-import { getUser, updateUser, updatePassword ,getUserDashboard, searchUser} from "../controllers/user";
+import { getUser, updateUser, updatePassword, getUserDashboard, searchUser, getUserQuizzes ,getUnpublishedQuizzes} from "../controllers/user";
 import { isAuthenticated } from "../middlewares/isAuth";
 
 // routing /user queries
 const router = express.Router();
 
 // GET request 
-router.get("/:userId", isAuthenticated, getUser);
+router.get("/", isAuthenticated, getUser);
 
 //PUT /user
 router.put("/", isAuthenticated, updateUser);
@@ -38,16 +38,21 @@ router.put("/update_password", isAuthenticated, [
         })
 ], updatePassword)
 
-// getting user dashboard
-
-router.get("/:userId/dashboard", isAuthenticated, getUserDashboard);
-
 // searching a user
-router.post('/search',isAuthenticated,[
+router.post('/search', isAuthenticated, [
     body("userName")
-    .trim()
-    .notEmpty()
-    .withMessage("Enter a name to search")
-],searchUser);
+        .trim()
+        .notEmpty()
+        .withMessage("Enter a name to search")
+], searchUser);
+
+// getting /user/dashboard
+router.get("/:userId", isAuthenticated, getUserDashboard);
+
+// get /user/:userId/myquizzes
+router.get("/:userId/quizzes", isAuthenticated, getUserQuizzes);
+
+// get unpublished quizzes only for the current user;
+router.get("/:userId/quizzes/unpublished",isAuthenticated,getUnpublishedQuizzes);
 
 export default router;
