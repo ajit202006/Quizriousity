@@ -61,7 +61,7 @@ const submitExam = async (req: Request, res: Response, next: NextFunction) => {
 
         const report = new Report({ userId, quizId, score, total, percentage, result });
         const data = await report.save();
-        const user = await User.findById(userId, { attemptedQuizCount: 1 });
+        const user = await User.findById(userId, { attemptedQuizCount: 1,passedCount:1 });
         if (user) {
             user.attemptedQuizCount += 1;
             if (result === "Pass") {
