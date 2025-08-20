@@ -32,7 +32,7 @@ router.post('/', isAuthenticated, [
 ], createQuiz);
 
 // get quiz
-router.get('/:quizId', isAuthenticated, getQuiz);
+router.get('/{:quizId}', isAuthenticated, getQuiz);
 
 //update quiz
 router.put('/', isAuthenticated, [
@@ -65,7 +65,6 @@ router.delete('/:quizId', isAuthenticated, deleteQuiz);
 // publish quiz
 router.patch('/publish', isAuthenticated, publishQuiz);
 
-
 // Quiz review routes
 
 //get reviews quiz/:quizId/reviews
@@ -87,8 +86,6 @@ router.post('/:quizId/reviews', isAuthenticated, [
 ], addReview);
 
 //delete review
-router.delete('/:quizId/reviews/:reviewId', isAuthenticated, deleteReview);
-
-
+router.delete('/:quizId/reviews', isAuthenticated, deleteReview);
 
 export default router;
