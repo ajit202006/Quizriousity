@@ -31,7 +31,7 @@ const submitExam = async (req: Request, res: Response, next: NextFunction) => {
         const attempted_questions = req.body.attempted_questions;
         const quizId = req.body.quizId;
 
-        const quiz = await Quiz.findById(quizId, { answers: 1, created_by: 1, passing_percentage: 1 });
+        const quiz = await Quiz.findById(quizId, { name: 1, answers: 1, created_by: 1, passing_percentage: 1 });
         const answers = quiz?.answers;
         const passingPercentage = quiz?.passing_percentage || 25;
         const userId = req.userId;
@@ -59,9 +59,9 @@ const submitExam = async (req: Request, res: Response, next: NextFunction) => {
             result = "Fail";
         }
 
-        const report = new Report({ userId, quizId, score, total, percentage, result });
+        const report = new Report({ userId, quizId, quizName: quiz?.name, score, total, percentage, result });
         const data = await report.save();
-        const user = await User.findById(userId, { attemptedQuizCount: 1,passedCount:1 });
+        const user = await User.findById(userId, { attemptedQuizCount: 1, passedCount: 1 });
         if (user) {
             user.attemptedQuizCount += 1;
             if (result === "Pass") {
