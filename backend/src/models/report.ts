@@ -10,6 +10,10 @@ const reportSchema = new Schema(
             type: mongoose.Types.ObjectId,
             required: true
         },
+        quizName:{
+            type:String,
+            require:true
+        },
         score: {
             type: Number,
             required: true
