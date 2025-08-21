@@ -1,17 +1,18 @@
-import { useRef, useState } from 'react';
+import { useContext, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthInput from '../components/AuthInput';
 import Button from '../components/Button';
 import logo from '/logo.png';
 import { MdMailOutline } from 'react-icons/md';
 import { HiOutlineLockClosed } from 'react-icons/hi';
+import TokenContext from '../components/TokenContext';
 
 const serverURL = "http://localhost:3000";
 
 const Login = () => {
     const emailRef = useRef<HTMLInputElement>(null);
     const passRef = useRef<HTMLInputElement>(null);
-    const [token, setToken] = useState("");
+    const tokenContext = useContext(TokenContext)
 
     const navigate = useNavigate();
     function validateUserLogin(email: string, pass: string): Boolean {
@@ -32,25 +33,32 @@ const Login = () => {
         if (!validateUserLogin(email, pass)) {
             return;
         }
-        const response = await fetch(serverURL + "/auth/login", {
-            method: 'POST',
-            body: JSON.stringify({
-                email: email,
-                password: pass
-            }),
-            headers: {
-                "content-type": "application/json"
+        try {
+            const response = await fetch(serverURL + "/auth/login", {
+                method: 'POST',
+                body: JSON.stringify({
+                    email: email,
+                    password: pass
+                }),
+                headers: {
+                    "content-type": "application/json"
+                }
+            })
+            const data = await response.json();
+            if (data.status === "success") {
+                alert(data.message);
+                tokenContext.setToken(data.data.token);
+                navigate('/quizzes');
             }
-        })
-        const data = await response.json();
-        if (data.status === "success") {
-            alert(data.message);
-            setToken(data.data.token);
-            navigate('/login');
+            else {
+                alert(data.message);
+            }
+        }catch (error:any){
+            if (error.message === "Failed to fetch" ){
+                alert("Unfortunately server has stopped. Please try again after some time")
+            }
         }
-        else {
-            alert(data.message);
-        }
+       
     }
 
     return (
