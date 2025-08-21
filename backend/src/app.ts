@@ -1,5 +1,6 @@
 import express,{Request,Response,NextFunction} from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 
 import userRouter from "./routes/user";
 import authRouter from "./routes/auth";
@@ -12,6 +13,7 @@ import { ReturnResponse } from "./util/interfaces";
 
 const app = express();
 const connectionString = process.env.CONNECTION_STRING || "" ;
+const clientURL = "http://localhost:5173"
 
 declare global{
     namespace Express{
@@ -22,6 +24,7 @@ declare global{
 }
 
 app.use(express.json());
+app.use(cors<Request>({origin:[clientURL]}))
 app.get("/", (req, res) => {
     res.send("Server is working");
 })
