@@ -6,6 +6,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import defaultProfile from '/profile.png';
 import BackButton from '../components/BackButton';
 
+interface QuizInterface {
+    _id: string,
+    name: string
+}
+
 const serverURL = "http://localhost:3000";
 
 const UserDashboard = () => {
@@ -13,7 +18,6 @@ const UserDashboard = () => {
     const userId = (useParams()).userId;
     const tokenContext = useContext(TokenContext);
     const token = tokenContext.token;
-    // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODlmMTc3NDhjYTJkNTg4MzUzOTJjODAiLCJpYXQiOjE3NTU3NzY3MjAsImV4cCI6MTc1NTc4MDMyMH0.1_EY4YzWVhg4sT0e6WcpIP8xzhl03E1vcgJQH6wAk84"
     const [userDetails, setUserDetails] = useState({
         "_id": null,
         "name": "-----",
@@ -21,40 +25,70 @@ const UserDashboard = () => {
         "createdQuizCount": 0,
         "passedCount": 0
     });
+    const [quizzes, setQuizzes] = useState([]);
     useEffect(() => {
-        fetch(serverURL + `/${userId}/quizzes`, {
+        fetch(serverURL + `/user/${userId}`, {
             headers: {
                 "Authorization": "Bearer " + token
             }
         })
             .then(response => response.json())
-            .then(result => setUserDetails(result.data.user));
+            .then(result => {
+                setUserDetails(result.data.user);
+            });
+    }, []);
+
+    useEffect(() => {
+        fetch(serverURL + `/user/${userId}/quizzes`, {
+            headers: {
+                "Authorization": "Bearer " + tokenContext.token
+            }
+        })
+            .then(response => response.json())
+            .then(result => setQuizzes(result.data))
+            .catch(err => console.log(err));
+    }, []);
+
+    const quizList = quizzes.map((quiz: QuizInterface) => {
+        return (
+            <li id={quiz._id} key={quiz._id}>
+                {quiz.name}
+            </li>
+        );
     });
+
     return (
         <div className='w-full h-full flex flex-col'>
             <Navbar />
             <div className='h-2/5 flex relative items-center justify-center gap-8'>
                 <img className='h-3/5' src={defaultProfile} alt="profile-image" />
                 <h1 className='text-5xl text-center font-semibold whitespace-nowrap overflow-x-auto [&::-webkit-scrollbar]:hidden' title={userDetails.name}>{userDetails.name}</h1>
-                <BackButton toPath='/users' title='Users'/>
+                <BackButton toPath='/users' title='Users' />
             </div>
-            <hr />
-            <div className='flex flex-col items-center justify-around min-h-6/12 max-h-full'>
-                <h1 className='text-4xl' >Profile</h1>
-                <div className='w-4/5 text-2xl grid gap-2 *:flex *:justify-between *:px-40'>
-                    <hr />
-                    <p>Quizzes created <span>{userDetails.createdQuizCount}</span></p>
-                    <hr />
-                    <p>Quizzes attempted <span>{userDetails.attemptedQuizCount}</span></p>
-                    <hr />
-                    <p>Exams passed <span>{userDetails.passedCount}</span></p>
-                    <hr />
-                    <p>Exams failed <span>{userDetails.attemptedQuizCount - userDetails.passedCount}</span></p>
-                    <hr />
-                </div>
-                <div className='flex w-4/5 justify-center'>
-                    <Button value='User quizzes' onClick={() => navigate('/:userId/quizzes')} />
-                </div>
+
+            <div className='flex min-h-6/10 overflow-x-scroll snap-x snap-mandatory *:snap-center [&::-webkit-scrollbar]:hidden'>
+                <section className='flex flex-col items-center justify-around h-full min-w-full'>
+                    <h1 className='text-4xl' >Profile</h1>
+                    <div className='w-4/5 text-2xl grid gap-2 *:flex *:justify-between *:px-40'>
+                        <hr />
+                        <p>Quizzes created <span>{userDetails.createdQuizCount}</span></p>
+                        <hr />
+                        <p>Quizzes attempted <span>{userDetails.attemptedQuizCount}</span></p>
+                        <hr />
+                        <p>Exams passed <span>{userDetails.passedCount}</span></p>
+                        <hr />
+                        <p>Exams failed <span>{userDetails.attemptedQuizCount - userDetails.passedCount}</span></p>
+                        <hr />
+                    </div>
+                    <div className='flex w-4/5 justify-center'>
+                        <a href="#quizList"><Button value='User Quizzes' onClick={null} /></a>
+                    </div>
+                </section>
+                <section className='min-w-full' id='quizList'>
+                    <ul className='list'>
+                        {quizList.length ? quizList : "No user quizzes..."}
+                    </ul>
+                </section>
             </div>
         </div>
     )
