@@ -1,6 +1,7 @@
-import { useContext, useEffect, useState } from "react";
-import TokenContext from "../contexts/TokenContext";
-import ListWrapper from "./ListWrapper";
+import { useContext, useEffect, useState } from 'react';
+import TokenContext from '../contexts/TokenContext';
+import ListWrapper from './ListWrapper';
+import { useNavigate } from 'react-router-dom';
 
 interface QuizInterface {
     _id:string,
@@ -18,18 +19,17 @@ interface QuizInterface {
     passing_percentage: number,
 }
 
-const serverURL = "http://localhost:3000";
+const serverURL = 'http://localhost:3000';
 
 const QuizList = () => {
+    const navigate = useNavigate();
     const [quizzes, setQuizzes] = useState([]);
     const tokenContext = useContext(TokenContext);
     const token = tokenContext.token;
     useEffect(() => {
         fetch(serverURL+'/quiz', {
-            method: "GET",
             headers: {
-                "Content-Type": "application/json",
-                "Authorization":"Bearer "+token
+                'Authorization':'Bearer '+token
             }
         })
             .then(response => response.json())
@@ -37,13 +37,13 @@ const QuizList = () => {
                 setQuizzes(result.data.quizzes)
             })
             .catch(err => {
-                err.message === "Failed to fetch" && alert("Server not working can't fetch quizzes.")
+                err.message === 'Failed to fetch' && alert(`Server not working can't fetch quizzes.`)
             })
     }, []);
 
     const quizList = quizzes.map((quiz:QuizInterface) => {
         return (
-            <li id={quiz._id}>
+            <li id={quiz._id} onClick={()=>{navigate(`/users/${quiz.created_by}/quiz/${quiz._id}`)}}>
                 {quiz.name}
             </li>
         );
@@ -51,7 +51,7 @@ const QuizList = () => {
 
     return (
         <ListWrapper>
-            {quizList.length ? quizList : "There are no quizzes"}
+            {quizList.length ? quizList : 'There are no quizzes'}
         </ListWrapper>
     );
 }
