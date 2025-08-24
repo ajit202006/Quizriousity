@@ -7,10 +7,13 @@ import Quizzes from './pages/Quizzes';
 import Reports from './pages/Reports';
 import Users from './pages/Users';
 import Dashboard from './pages/Dashboard';
+import UserDashboard from './pages/UserDashboard';
+import MyQuizzes from './pages/MyQuizzes';
+import QuizView from './pages/QuizView';
 
 function App() {
   return (
-      <div className='h-screen w-screen flex items-center justify-center bg-[#429BB7] text-white'>
+      <div className='h-screen w-screen flex items-center justify-center bg-background text-white'>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/register' element={<Register />} />
@@ -18,7 +21,10 @@ function App() {
           <Route path='/quizzes' element={<Quizzes />} />
           <Route path='/reports' element={<Reports />} />
           <Route path='/users' element={<Users />} />
-          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/user' element={<Dashboard />} />
+          <Route path='/user/:userId/myquizzes' element={<MyQuizzes />} />
+          <Route path='/users/:userId/' element={<UserDashboard />} />
+          <Route path='/users/:userId/quiz/:quizId' element={<QuizView />} />
         </Routes>
       </div>
   )
