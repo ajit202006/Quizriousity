@@ -51,8 +51,8 @@ const UserDashboard = () => {
 
     const quizList = quizzes.map((quiz: QuizInterface) => {
         return (
-            <li id={quiz._id} key={quiz._id}>
-                {quiz.name}
+            <li id={quiz._id} key={quiz._id} onClick={()=>{navigate(`/users/${userId}/quiz/${quiz._id}`)}}>
+               {quiz.name} 
             </li>
         );
     });
@@ -68,6 +68,7 @@ const UserDashboard = () => {
 
             <div className='flex min-h-6/10 overflow-x-scroll snap-x snap-mandatory *:snap-center [&::-webkit-scrollbar]:hidden'>
                 <section className='flex flex-col items-center justify-around h-full min-w-full'>
+                    <hr className='w-screen'/>
                     <h1 className='text-4xl' >Profile</h1>
                     <div className='w-4/5 text-2xl grid gap-2 *:flex *:justify-between *:px-40'>
                         <hr />
