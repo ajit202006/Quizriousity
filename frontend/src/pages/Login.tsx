@@ -1,11 +1,11 @@
 import { useContext, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import AuthInput from '../components/AuthInput';
-import Button from '../components/Button';
-import logo from '/logo.png';
 import { MdMailOutline } from 'react-icons/md';
 import { HiOutlineLockClosed } from 'react-icons/hi';
-import TokenContext from '../components/TokenContext';
+import AuthInput from '../components/AuthInput';
+import Button from '../components/Button';
+import TokenContext from '../contexts/TokenContext';
+import logo from '/logo.png';
 
 const serverURL = "http://localhost:3000";
 
@@ -41,17 +41,17 @@ const Login = () => {
                     password: pass
                 }),
                 headers: {
-                    "content-type": "application/json"
+                    "Content-Type": "application/json"
                 }
             })
-            const data = await response.json();
-            if (data.status === "success") {
-                alert(data.message);
-                tokenContext.setToken(data.data.token);
-                navigate('/quizzes');
+            const result = await response.json();
+            if (result.status === "success") {
+                tokenContext.setToken(result.data.token);
+                localStorage.setItem("token",result.data.token)
+                navigate('/user');
             }
             else {
-                alert(data.message);
+                alert(result.message);
             }
         }catch (error:any){
             if (error.message === "Failed to fetch" ){
