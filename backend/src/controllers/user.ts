@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
+import { validationResult } from "express-validator";
 import bcrypt from "bcryptjs"
 import User from "../models/user";
 import ProjectError from "../helper/ProjectError";
 import { ReturnResponse } from "../util/interfaces";
-import { validationResult } from "express-validator";
 import Quiz from "../models/quiz";
 
 const getUser = async (req: Request, res: Response, next: NextFunction) => {
@@ -42,7 +42,7 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
             err.statusCode = 401;
             throw err;
         } else {
-            resp = { status: "success", message: "Registration done", data: { user } };
+            resp = { status: "success", message: "Updation done", data: { user } };
             res.send(resp)
         }
     } catch (error) {
@@ -92,13 +92,13 @@ const getUserDashboard = async (req: Request, res: Response, next: NextFunction)
     let resp: ReturnResponse;
     try {
         const userId = req.params.userId;
-        const user = await User.findById(userId, { name: 1, createdQuizCount: 1, attemptedQuizCount: 1, passedCount: 1, _id: 0 });
+        const user = await User.findById(userId, { name: 1, createdQuizCount: 1, attemptedQuizCount: 1, passedCount: 1 });
         if (!user) {
             const err = new ProjectError("User not found");
             err.statusCode = 401;
             throw err;
         }
-        resp = { status: "success", message: "User found", data: { user: { user } } };
+        resp = { status: "success", message: "User found", data: { user } };
         res.send(resp);
     } catch (error) {
         next(error);
@@ -117,7 +117,7 @@ const searchUser = async (req: Request, res: Response, next: NextFunction) => {
         }
         const userName = req.body.userName;
         const regex = new RegExp(`^${userName}`, "i");
-        const users = await User.find({ name: { $regex: regex } }, { name: 1 });
+        const users = await User.find({ name: { $regex: regex },_id:{$not:{$eq:req.userId}} }, { name: 1 });
         let resp: ReturnResponse;
         if (!users.length) {
             resp = { status: "error", message: "No user exist with given name", data: [] };
