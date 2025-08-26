@@ -18,7 +18,7 @@ const MyQuizzes = () => {
     const [published, setPublished] = useState([]);
     const [unpublished, setUnpublished] = useState([]);
     const [isPublished, setIsPublished] = useState(true);
-
+    const [reloader,setReloader] = useState(false);
     useEffect(() => {
         fetch(serverURL + `/user/${tokenContext.userId}/quizzes`, {
             headers: {
@@ -28,7 +28,7 @@ const MyQuizzes = () => {
             .then(response => response.json())
             .then(result => setPublished(result.data))
             .catch(err => console.log(err));
-    }, []);
+    }, [reloader,isPublished]);
 
     useEffect(() => {
         fetch(serverURL + `/user/${tokenContext.userId}/quizzes/unpublished`, {
@@ -39,8 +39,25 @@ const MyQuizzes = () => {
             .then(response => response.json())
             .then(result => setUnpublished(result.data))
             .catch(err => console.log(err));
-    }, []);
+    }, [reloader,isPublished]);
 
+    const publishQuiz = async (quizId: string) => {
+        const response = await fetch(serverURL + '/quiz/publish', {
+            method: 'PATCH',
+            body: JSON.stringify({ quizId }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + tokenContext.token
+            }
+        })
+        const result = await response.json();
+        if (result.status === 'success') {
+            setReloader(!reloader);
+        } else {
+            alert(result.message);
+        }
+    }
+    
     const publishedList = published.map((quiz: QuizInterface) => {
         return (
             <li id={quiz._id} key={quiz._id}>
@@ -56,12 +73,12 @@ const MyQuizzes = () => {
                 <div className='flex justify-around w-1/5 text-4xl'>
                     <button>{<HiPencilAlt />}</button>
                     <button>{<HiOutlineTrash />}</button>
-                    <button>{<HiOutlineUpload />}</button>
+                    <button onClick={()=>{publishQuiz(quiz._id)}}>{<HiOutlineUpload />}</button>
                 </div>
             </li>
         )
     })
-    
+
     const myList = isPublished ? publishedList : unpublishedList;
     return (
         <div className='w-full h-full flex flex-col'>
