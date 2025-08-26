@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HiPencilAlt, HiOutlineTrash } from 'react-icons/hi';
+import { HiPencilAlt, HiOutlineTrash, HiOutlineUpload } from 'react-icons/hi';
 import Button from '../components/Button';
 import Header from '../components/Header';
 import TokenContext from '../contexts/TokenContext';
 
-interface QuizInterface{
-    _id:string,
-    name:string
+interface QuizInterface {
+    _id: string,
+    name: string
 }
 
 const serverURL = 'http://localhost:3000';
@@ -28,7 +28,8 @@ const MyQuizzes = () => {
             .then(response => response.json())
             .then(result => setPublished(result.data))
             .catch(err => console.log(err));
-    },[]);
+    }, []);
+
     useEffect(() => {
         fetch(serverURL + `/user/${tokenContext.userId}/quizzes/unpublished`, {
             headers: {
@@ -38,26 +39,29 @@ const MyQuizzes = () => {
             .then(response => response.json())
             .then(result => setUnpublished(result.data))
             .catch(err => console.log(err));
-    },[]);
+    }, []);
 
-    const publishedList = published.map((quiz:QuizInterface) => {
+    const publishedList = published.map((quiz: QuizInterface) => {
         return (
             <li id={quiz._id} key={quiz._id}>
                 <p className='list-item'>{quiz.name}</p>
             </li>
         )
     })
-    const unpublishedList = unpublished.map((quiz:QuizInterface) => {
+
+    const unpublishedList = unpublished.map((quiz: QuizInterface) => {
         return (
             <li className='flex justify-between' id={quiz._id} key={quiz._id}>
                 <p className='list-item'>{quiz.name}</p>
                 <div className='flex justify-around w-1/5 text-4xl'>
                     <button>{<HiPencilAlt />}</button>
                     <button>{<HiOutlineTrash />}</button>
+                    <button>{<HiOutlineUpload />}</button>
                 </div>
             </li>
         )
     })
+    
     const myList = isPublished ? publishedList : unpublishedList;
     return (
         <div className='w-full h-full flex flex-col'>
@@ -75,9 +79,7 @@ const MyQuizzes = () => {
                 <ul className='list'>
                     {myList.length ? myList : 'Nothing to display'}
                 </ul>
-
             </div>
-
         </div>
     )
 }
