@@ -68,7 +68,7 @@ const Login = () => {
                 <p className='text-6xl'>Login</p>
             </div>
             <form className='flex flex-col w-full h-8/12 justify-around items-center' onSubmit={(e) => loginUser(e)}>
-                <div className='grid gap-10 w-2/5 text-2xl *:flex *:flex-col [&_input]:rounded-full [&_input]:bg-[#7dcdff] [&_input]:h-10 [&_input]:px-3.5 [&_input]:outline-none [&_input]:border-none'>
+                <div className='grid gap-10 w-2/5 text-2xl *:flex *:flex-col [&_input]:rounded-full [&_input]:bg-input [&_input]:h-10 [&_input]:px-3.5 [&_input]:outline-none [&_input]:border-none'>
                     <AuthInput id={'e-mail'} icon={MdMailOutline} type='email' label='E-mail' ref={emailRef} placeholder="Enter your email..." />
                     <AuthInput id={'pass'} icon={HiOutlineLockClosed} type='password' label='Password' ref={passRef} placeholder="Enter your password..." />
                 </div>
