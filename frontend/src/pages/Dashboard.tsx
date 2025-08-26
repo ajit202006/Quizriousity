@@ -98,7 +98,7 @@ const Dashboard = () => {
                     </div>
                     <div className='flex w-4/5 justify-around'>
                         <Button value='My quizzes' onClick={() => navigate(`/user/${userDetails._id}/myquizzes`)} />
-                        <Button value='Change password' onClick={() => navigate('/')} />
+                        <Button value='Change password' onClick={() => navigate('/user/update_password')} />
                     </div>
                 </div>
             </div>
