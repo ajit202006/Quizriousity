@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { validationResult } from "express-validator";
-import Review from "../models/review";
 import { ReturnResponse } from "../util/interfaces";
 import ProjectError from "../helper/ProjectError";
 import Quiz from "../models/quiz";
+import Review from "../models/review";
+import Report from "../models/report";
 
 const getReviews = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -36,6 +37,12 @@ const addReview = async (req: Request, res: Response, next: NextFunction) => {
         const rating = req.body.rating;
         const feedback = req.body.feedback || "";
 
+        const quizAttempted = await Report.findOne({quizId,userId});
+        if (!quizAttempted){
+            const err = new ProjectError("Attempt the quiz to review.");
+            err.statusCode=401;
+            throw err;
+        }
         const quiz = await Quiz.findById(quizId, { created_by: 1 });
         if (!quiz) {
             const err = new ProjectError("Quiz not found");
@@ -49,7 +56,7 @@ const addReview = async (req: Request, res: Response, next: NextFunction) => {
         }
         let review;
         const reviewExist = await Review.find({userId});
-        console.log(feedback);
+
         if(reviewExist.length){
             review = reviewExist[0];
             review.rating = rating;
