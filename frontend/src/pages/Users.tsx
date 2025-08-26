@@ -7,7 +7,7 @@ import TokenContext from '../contexts/TokenContext';
 const serverURL = "http://localhost:3000";
 
 const Users = () => {
-    const [users, setUsers] = useState([{}]);
+    const [users, setUsers] = useState([]);
     const nameRef = useRef<HTMLInputElement>(null);
     const tokenContext = useContext(TokenContext);
     const token = tokenContext.token;
