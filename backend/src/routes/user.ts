@@ -49,7 +49,7 @@ router.post('/search', isAuthenticated, [
 // getting /user/dashboard
 router.get("/:userId", isAuthenticated, getUserDashboard);
 
-// get /user/:userId/myquizzes
+// get /user/:userId/quizzes
 router.get("/:userId/quizzes", isAuthenticated, getUserQuizzes);
 
 // get unpublished quizzes only for the current user;
