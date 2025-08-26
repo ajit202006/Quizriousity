@@ -120,11 +120,11 @@ const deleteQuiz = async (req: Request, res: Response, next: NextFunction) => {
         }
         await Quiz.deleteOne({ _id: quizId });
         const resp: ReturnResponse = { status: "success", message: "Quiz Deleted", data: {} };
-        res.send(resp);
+        res.status(200).send(resp);
     } catch (error) {
         next(error);
     }
-    res.send(req.params.quizId);
+
 }
 
 const publishQuiz = async (req: Request, res: Response, next: NextFunction) => {
