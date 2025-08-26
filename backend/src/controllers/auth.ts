@@ -49,7 +49,7 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
                 err.statusCode = 401;
                 throw err;
             } else {
-                const token = jwt.sign({ userId: user._id }, "mykey", { expiresIn: '1h' });
+                const token = jwt.sign({ userId: user._id }, "mykey", { expiresIn: "6h" });
                 resp = { status: "success", message: "Logged in", data: { token } };
                 res.status(200).send(resp);
             }
