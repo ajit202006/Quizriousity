@@ -8,7 +8,7 @@ import User from "../models/user";
 const startExam = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const quizId = req.params.quizId;
-        const quiz = await Quiz.findById(quizId, { name: 1, questions_list: 1, is_published: 1 });
+        const quiz = await Quiz.findById(quizId, { name: 1, questions_list: 1, is_published: 1, passing_percentage: 1});
         if (!quiz) {
             const err = new ProjectError("Quiz not found");
             err.statusCode = 404;
