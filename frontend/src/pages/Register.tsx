@@ -70,7 +70,7 @@ const Register = () => {
         <p className='text-6xl'>Register</p>
       </div>
       <form className='w-full flex flex-col justify-between items-center' onSubmit={(e) => registerUser(e)}>
-        <div className='grid gap-10 w-2/5 text-2xl *:flex *:flex-col [&_input]:rounded-full [&_input]:bg-[#7dcdff] [&_input]:h-10 [&_input]:px-3.5 [&_input]:outline-none [&_input]:border-none'>
+        <div className='grid gap-10 w-2/5 text-2xl *:flex *:flex-col [&_input]:rounded-full [&_input]:bg-input [&_input]:h-10 [&_input]:px-3.5 [&_input]:outline-none [&_input]:border-none'>
           <AuthInput id={'username'} icon={MdPersonOutline} type='text' label='Name' ref={nameRef} placeholder="Enter your name..." />
           <AuthInput id={'e-mail'} icon={MdMailOutline} type='email' label='E-mail' ref={emailRef} placeholder="Enter your email..." />
           <AuthInput id={'pass'} icon={HiOutlineLockClosed} type='password' label='Password' ref={passRef} placeholder="Enter your password..." />
