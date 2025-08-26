@@ -18,7 +18,7 @@ const MyQuizzes = () => {
     const [published, setPublished] = useState([]);
     const [unpublished, setUnpublished] = useState([]);
     const [isPublished, setIsPublished] = useState(true);
-    const [reloader,setReloader] = useState(false);
+    const [reloader, setReloader] = useState(false);
     useEffect(() => {
         fetch(serverURL + `/user/${tokenContext.userId}/quizzes`, {
             headers: {
@@ -28,7 +28,7 @@ const MyQuizzes = () => {
             .then(response => response.json())
             .then(result => setPublished(result.data))
             .catch(err => console.log(err));
-    }, [reloader,isPublished]);
+    }, [reloader, isPublished]);
 
     useEffect(() => {
         fetch(serverURL + `/user/${tokenContext.userId}/quizzes/unpublished`, {
@@ -39,7 +39,7 @@ const MyQuizzes = () => {
             .then(response => response.json())
             .then(result => setUnpublished(result.data))
             .catch(err => console.log(err));
-    }, [reloader,isPublished]);
+    }, [reloader, isPublished]);
 
     const publishQuiz = async (quizId: string) => {
         const response = await fetch(serverURL + '/quiz/publish', {
@@ -57,7 +57,22 @@ const MyQuizzes = () => {
             alert(result.message);
         }
     }
-    
+
+    const deleteQuiz = async (quizId:string) => {
+        const response = await fetch(serverURL + `/quiz/${quizId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': 'Bearer ' + tokenContext.token
+            }
+        })
+        const result = await response.json();
+        if (result.status === 'success') {
+            setReloader(!reloader);
+        } else {
+            alert(result.message);
+        }
+    }
+
     const publishedList = published.map((quiz: QuizInterface) => {
         return (
             <li id={quiz._id} key={quiz._id}>
@@ -72,8 +87,8 @@ const MyQuizzes = () => {
                 <p className='list-item'>{quiz.name}</p>
                 <div className='flex justify-around w-1/5 text-4xl'>
                     <button>{<HiPencilAlt />}</button>
-                    <button>{<HiOutlineTrash />}</button>
-                    <button onClick={()=>{publishQuiz(quiz._id)}}>{<HiOutlineUpload />}</button>
+                    <button onClick={() => { deleteQuiz(quiz._id) }}>{<HiOutlineTrash />}</button>
+                    <button onClick={() => { publishQuiz(quiz._id) }}>{<HiOutlineUpload />}</button>
                 </div>
             </li>
         )
