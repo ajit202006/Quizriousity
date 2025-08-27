@@ -5,6 +5,7 @@ import ProjectError from "../helper/ProjectError";
 import Quiz from "../models/quiz";
 import Review from "../models/review";
 import Report from "../models/report";
+import User from "../models/user";
 
 const getReviews = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -37,12 +38,20 @@ const addReview = async (req: Request, res: Response, next: NextFunction) => {
         const rating = req.body.rating;
         const feedback = req.body.feedback || "";
 
-        const quizAttempted = await Report.findOne({quizId,userId});
-        if (!quizAttempted){
+        const quizAttempted = await Report.findOne({ quizId, userId });
+        if (!quizAttempted) {
             const err = new ProjectError("Attempt the quiz to review.");
-            err.statusCode=401;
+            err.statusCode = 401;
             throw err;
         }
+
+        const user = await User.findById(userId, { name: 1 });
+        if (!user) {
+            const err = new ProjectError("User does not exist");
+            err.statusCode = 402;
+            throw err;
+        }
+
         const quiz = await Quiz.findById(quizId, { created_by: 1 });
         if (!quiz) {
             const err = new ProjectError("Quiz not found");
@@ -55,14 +64,13 @@ const addReview = async (req: Request, res: Response, next: NextFunction) => {
             throw err;
         }
         let review;
-        const reviewExist = await Review.find({userId});
-
-        if(reviewExist.length){
+        const reviewExist = await Review.find({ userId });
+        if (reviewExist.length) {
             review = reviewExist[0];
             review.rating = rating;
             review.feedback = feedback;
-        }else{   
-            review = new Review({ userId, quizId, rating, feedback });
+        } else {
+            review = new Review({ userId, quizId, userName: user.name, rating, feedback });
         }
         const status = await review.save();
         if (!status) {
@@ -79,8 +87,8 @@ const addReview = async (req: Request, res: Response, next: NextFunction) => {
 const deleteReview = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId = req.userId;
-        const review = (await Review.find({userId}))[0];
-        
+        const review = (await Review.find({ userId }))[0];
+
         if (!review) {
             const err = new ProjectError("Review not found");
             err.statusCode = 401;
