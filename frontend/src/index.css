@@ -8,6 +8,7 @@
   --color-header: #0674A0;
   --color-input: #7dcdff;
   --color-quiz-view-bg: #DFEFF4;
+  --color-li:#39686F;
 }
 
 * {
@@ -24,9 +25,12 @@
 }
 
 .list {
-  @apply h-full p-4 flex flex-col overflow-auto gap-3.5 text-2xl font-semibold [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#B9D5FF] [&::-webkit-scrollbar-thumb]:bg-[#0674A0] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:rounded-full *:flex *:items-center *:min-h-1/7 *:bg-[#39686F] *:rounded-xl *:px-7;
+  @apply h-full p-4 flex flex-col overflow-auto gap-3.5 text-2xl font-semibold [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#B9D5FF] [&::-webkit-scrollbar-thumb]:bg-[#0674A0] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:rounded-full *:flex *:items-center *:min-h-1/7 *:bg-li *:rounded-xl *:px-7;
 }
 
 .custom-scrollbar {
-  @apply [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#B9D5FF] [&::-webkit-scrollbar-thumb]:bg-[#0674A0] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:rounded-full;
+  @apply [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#B9D5FF] [&::-webkit-scrollbar-thumb]:bg-[#0674A0] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:rounded-full ;
+}
+.custom-radio-button{
+  @apply appearance-none w-9 h-9 bg-button border-button rounded-full border-0 transition-all checked:border-10 checked:bg-white;
 }
