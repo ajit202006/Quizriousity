@@ -51,7 +51,7 @@ const addReview = async (req: Request, res: Response, next: NextFunction) => {
             err.statusCode = 402;
             throw err;
         }
-
+        
         const quiz = await Quiz.findById(quizId, { created_by: 1 });
         if (!quiz) {
             const err = new ProjectError("Quiz not found");
@@ -67,10 +67,11 @@ const addReview = async (req: Request, res: Response, next: NextFunction) => {
         const reviewExist = await Review.find({ userId });
         if (reviewExist.length) {
             review = reviewExist[0];
+            review.userName=user?.name;
             review.rating = rating;
             review.feedback = feedback;
         } else {
-            review = new Review({ userId, quizId, userName: user.name, rating, feedback });
+            review = new Review({ userId, quizId, userName: user?.name, rating, feedback });
         }
         const status = await review.save();
         if (!status) {
