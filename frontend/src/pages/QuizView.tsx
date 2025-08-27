@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react';
-import Header from '../components/Header'
+import Header from '../components/Header';
 import Button from '../components/Button';
 import TokenContext from '../contexts/TokenContext';
 
@@ -94,7 +94,7 @@ const QuizView = () => {
                         <div className='flex w-4/5 justify-around'>
                             <a href='#quiz-view'><Button value='View Quiz' onClick={null} /></a>
                             <Button value='Quizzes' onClick={() => navigate(`/quizzes`)} />
-                            <Button value='Reviews' onClick={() => navigate(`///`)} />
+                            <Button value='Reviews' onClick={() => navigate(`/users/${userId}/quiz/${quizId}/reviews/${quiz.name}`)} />
                         </div>
                     </div>
                 </section>
@@ -115,4 +115,4 @@ const QuizView = () => {
     )
 }
 
-export default QuizView
+export default QuizView;
