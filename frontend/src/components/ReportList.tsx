@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from "react";
-import TokenContext from "../contexts/TokenContext";
-import ListWrapper from "./ListWrapper";
+import { useContext, useEffect, useState } from 'react';
+import TokenContext from '../contexts/TokenContext';
+import ListWrapper from './ListWrapper';
 
 interface ReportInterface {
-    _id:string,
-    userId:string,
-    quizId: string,     
+    _id: string,
+    userId: string,
+    quizId: string,
     quizName: String,
     score: number,
     total: number,
@@ -13,18 +13,18 @@ interface ReportInterface {
     result: String
 }
 
-const serverURL = "http://localhost:3000";
+const serverURL = 'http://localhost:3000';
 
 const ReportList = () => {
     const [reports, setReports] = useState([]);
     const tokenContext = useContext(TokenContext);
     const token = tokenContext.token;
     useEffect(() => {
-        fetch(serverURL+'/report', {
-            method: "GET",
+        fetch(serverURL + '/report', {
+            method: 'GET',
             headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer "+token
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
             }
         })
             .then(response => response.json())
@@ -32,15 +32,15 @@ const ReportList = () => {
                 setReports(result.data)
             })
             .catch(err => {
-                err.message === "Failed to fetch" && alert("Server not working can't fetch Reports.")
+                err.message === 'Failed to fetch' && alert('Server not working can\'t fetch Reports.')
             })
     }, []);
 
-    const reportList = reports.map((report:ReportInterface) => {
+    const reportList = reports.map((report: ReportInterface) => {
         return (
-            <li className="flex justify-between" id={report._id}>
+            <li className='flex justify-between' id={report._id}>
                 {report.quizName}
-                <div className="flex justify-around w-1/4">
+                <div className='flex justify-around w-1/4'>
                     <p>{report.score}/{report.total}</p>
                     <span className={`w-1/4 text-center py-auto rounded-full ${report.result === 'Pass' ? 'bg-[#2BFF40]' : 'bg-[#EC0000]'}`}>{report.result}</span>
                 </div>
@@ -50,9 +50,11 @@ const ReportList = () => {
     });
 
     return (
-        <ListWrapper>
-            {reportList.length ? reportList : "There are no reports"}
-        </ListWrapper>
+        <div className='h-11/12 *:h-full py-5'>
+            <ListWrapper>
+                {reportList.length ? reportList : 'There are no reports'}
+            </ListWrapper>
+        </div>
     )
 }
 
