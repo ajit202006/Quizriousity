@@ -28,7 +28,6 @@ const QuizView = () => {
                 }
             }
         ],
-        answers: {},
         created_by: '----',
         passing_percentage: 5,
     });
@@ -105,7 +104,7 @@ const QuizView = () => {
                             {questionsList}
                         </ul>
                         <div className='w-4/5 flex font-normal justify-around text-white' >
-                            <Button value='Start Exam' onClick={() => navigate('/')} />
+                            <Button value='Start Exam' onClick={() => navigate(`/quiz/${quizId}/exam`)} />
                             <a href='#quiz-info'><Button value='Go to quiz' onClick={null} /></a>
                         </div>
                     </div>
