@@ -20,8 +20,9 @@ const createQuiz = async (req: Request, res: Response, next: NextFunction) => {
         const name = req.body.name;
         const questions_list = req.body.questions_list;
         const answers = req.body.answers
+        const passing_percentage = req.body.passing_percentage || 25;
 
-        const quiz = new Quiz({ name, questions_list, answers, created_by });
+        const quiz = new Quiz({ name, questions_list, answers, created_by, passing_percentage });
         const result = await quiz.save();
         const user = await User.findById(created_by, { createdQuizCount: 1 });
         if (user) {
@@ -38,10 +39,10 @@ const createQuiz = async (req: Request, res: Response, next: NextFunction) => {
 const getQuiz = async (req: Request, res: Response, next: NextFunction) => {
     try {
         if (!req.params.quizId) {
-            const quizzes = await Quiz.find({created_by:{$not:{$eq:req.userId}},is_published:true});
+            const quizzes = await Quiz.find({ created_by: { $not: { $eq: req.userId } }, is_published: true });
             const resp: ReturnResponse = { status: "success", message: "Quiz", data: { quizzes } };
             res.status(200).send(resp);
-            return ;
+            return;
         }
         const quizId = req.params.quizId;
         const quiz = await Quiz.findById(quizId, { name: 1, questions_list: 1, answers: 1, created_by: 1 });
@@ -144,4 +145,4 @@ const publishQuiz = async (req: Request, res: Response, next: NextFunction) => {
         next(error);
     }
 }
-export { createQuiz, getQuiz, updateQuiz, deleteQuiz, publishQuiz};
+export { createQuiz, getQuiz, updateQuiz, deleteQuiz, publishQuiz };
