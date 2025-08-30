@@ -120,6 +120,11 @@ const deleteQuiz = async (req: Request, res: Response, next: NextFunction) => {
             err.statusCode = 405;
             throw err;
         }
+        const user = await User.findById(req.userId,{createdQuizCount:1});
+        if (user) {
+            user.createdQuizCount -= 1;
+            await user.save();
+        }
         await Quiz.deleteOne({ _id: quizId });
         const resp: ReturnResponse = { status: "success", message: "Quiz Deleted", data: {} };
         res.status(200).send(resp);
