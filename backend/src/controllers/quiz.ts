@@ -20,7 +20,7 @@ const createQuiz = async (req: Request, res: Response, next: NextFunction) => {
         const name = req.body.name;
         const questions_list = req.body.questions_list;
         const answers = req.body.answers
-        const passing_percentage = req.body.passing_percentage || 25;
+        const passing_percentage = req.body.passing_percentage === undefined ? 25 : req.body.passing_percentage;
 
         const quiz = new Quiz({ name, questions_list, answers, created_by, passing_percentage });
         const result = await quiz.save();
@@ -92,6 +92,7 @@ const updateQuiz = async (req: Request, res: Response, next: NextFunction) => {
         quiz.name = req.body.name;
         quiz.questions_list = req.body.questions_list;
         quiz.answers = req.body.answers;
+        quiz.passing_percentage = req.body.passing_percentage === undefined ? 25 : req.body.passing_percentage;
         await quiz.save();
         const resp: ReturnResponse = { status: "success", message: "Updated successfully", data: {} };
         res.status(200).send(resp);
