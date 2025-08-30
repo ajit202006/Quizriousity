@@ -87,7 +87,7 @@ const Dashboard = () => {
                     <h1 className='text-4xl' >Profile</h1>
                     <div className='w-4/5 text-2xl grid gap-2 *:flex *:justify-between *:px-40 *:relative'>
                         <hr />
-                        <p>Quizzes created <span>{userDetails.createdQuizCount}</span><FiPlus className='absolute right-0 my-auto text-3xl' onClick={() => console.log('Create quiz clicked')} title='Create quiz' /></p>
+                        <p>Quizzes created <span>{userDetails.createdQuizCount}</span><FiPlus className='absolute right-0 my-auto text-3xl' onClick={() => navigate('/quiz')} title='Create quiz' /></p>
                         <hr />
                         <p>Quizzes attempted <span>{userDetails.attemptedQuizCount}</span><FiPlus className='absolute right-0 my-auto text-3xl' onClick={() => navigate('/quizzes')} title='Quizzes' /></p>
                         <hr />
