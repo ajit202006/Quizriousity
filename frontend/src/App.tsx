@@ -14,6 +14,7 @@ import QuizView from './pages/QuizView';
 import AddQuiz from './pages/AddQuiz';
 import Review from './pages/Review';
 import StartExam from './pages/StartExam';
+import EditQuiz from './pages/EditQuiz';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path='/users/:userId/' element={<UserDashboard />} />
         <Route path='/users/:userId/quiz/:quizId' element={<QuizView />} />
         <Route path='/quiz' element={<AddQuiz />} />
+        <Route path='/quiz/:quizId' element={<EditQuiz />} />
         <Route path='/users/:userId/quiz/:quizId/reviews/:quizName' element={<Review />} />
         <Route path='/quiz/:quizId/exam' element={<StartExam />} />
       </Routes>
