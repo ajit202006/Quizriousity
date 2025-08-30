@@ -52,7 +52,7 @@ const ReportList = () => {
     return (
         <div className='h-11/12 *:h-full py-5'>
             <ListWrapper>
-                {reportList.length ? reportList : 'There are no reports'}
+                {reportList.length ? reportList.reverse() : 'There are no reports'}
             </ListWrapper>
         </div>
     )
