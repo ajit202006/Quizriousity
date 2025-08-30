@@ -4,6 +4,7 @@ import { HiPencilAlt, HiOutlineTrash, HiOutlineUpload } from 'react-icons/hi';
 import Button from '../components/Button';
 import Header from '../components/Header';
 import TokenContext from '../contexts/TokenContext';
+import { TiPlus } from 'react-icons/ti';
 
 interface QuizInterface {
     _id: string,
@@ -58,7 +59,7 @@ const MyQuizzes = () => {
         }
     }
 
-    const deleteQuiz = async (quizId:string) => {
+    const deleteQuiz = async (quizId: string) => {
         const response = await fetch(serverURL + `/quiz/${quizId}`, {
             method: 'DELETE',
             headers: {
@@ -86,7 +87,7 @@ const MyQuizzes = () => {
             <li className='flex justify-between' id={quiz._id} key={quiz._id}>
                 <p className='list-item'>{quiz.name}</p>
                 <div className='flex justify-around w-1/5 text-4xl'>
-                    <button>{<HiPencilAlt />}</button>
+                    <button onClick={() => { navigate(`/quiz/${quiz._id}`) }}>{<HiPencilAlt />}</button>
                     <button onClick={() => { deleteQuiz(quiz._id) }}>{<HiOutlineTrash />}</button>
                     <button onClick={() => { publishQuiz(quiz._id) }}>{<HiOutlineUpload />}</button>
                 </div>
@@ -100,7 +101,10 @@ const MyQuizzes = () => {
             <Header />
             <div className='flex relative text-4xl items-center justify-around min-h-1/6'>
                 <Button value='Dashboard' onClick={() => navigate('/user')} />
-                <h1>My Quizzes</h1>
+                <h1 className='flex items-center gap-2'>
+                    My Quizzes
+                    <button className='bg-button text-white rounded-full min-w-8 min-h-8 grid place-items-center' onClick={() => navigate('/quiz')}><TiPlus title='Create quiz' /></button>
+                </h1>
                 <Button value='Quizzes' onClick={() => navigate('/quizzes')} />
             </div>
             <div className='flex justify-around min-h-1/12 *:text-3xl *:w-full'>
