@@ -63,7 +63,7 @@ const UserDashboard = () => {
             <div className='h-2/5 flex relative items-center justify-center gap-8'>
                 <img className='h-3/5' src={defaultProfile} alt="profile-image" />
                 <h1 className='text-5xl text-center font-semibold whitespace-nowrap overflow-x-auto [&::-webkit-scrollbar]:hidden' title={userDetails.name}>{userDetails.name}</h1>
-                <BackButton toPath='/users' title='Users' />
+                <BackButton />
             </div>
 
             <div className='flex min-h-6/10 overflow-x-scroll snap-x snap-mandatory *:snap-center [&::-webkit-scrollbar]:hidden'>

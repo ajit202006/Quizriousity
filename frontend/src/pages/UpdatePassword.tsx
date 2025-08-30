@@ -64,7 +64,7 @@ const UpdatePassword = () => {
       <Header />
       <div className='h-11/12 flex flex-col justify-around items-center relative'>
         <h1 className='text-4xl'>Change Password</h1>
-        <BackButton toPath='/user' title='Dashboard'/>
+        <BackButton/>
         <form className='w-full h-5/7 flex flex-col justify-between items-center' onSubmit={(e) => updatePassword(e)}>
           <div className='grid gap-10 w-2/5 text-2xl *:flex *:flex-col [&_input]:rounded-full [&_input]:bg-input [&_input]:h-10 [&_input]:px-3.5 [&_input]:outline-none [&_input]:border-none'>
             <AuthInput id={'pass'} icon={HiOutlineLockClosed} type='password' label='Current Password' ref={passRef} placeholder="Enter current password..." />
