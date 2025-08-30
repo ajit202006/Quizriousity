@@ -32,8 +32,8 @@ router.post('/', isAuthenticated, [
     body("passing_percentage")
     .custom((value)=>{
         if (value===undefined){
-            return true
-        }else if (value>50 || value<0){
+            return true;
+        }else if (typeof value==='string' || value>50 || value<0){
             return Promise.reject("Passing percentage should be in range 0 to 50")
         }
         return true;
@@ -65,7 +65,16 @@ router.put('/', isAuthenticated, [
                 return Promise.reject("'Answers' does not match 'Questions List'")
             }
             return true;
-        })
+        }),
+    body("passing_percentage")
+    .custom((value)=>{
+        if (value===undefined){
+            return true;
+        }else if (typeof value==='string' || value>50 || value<0){
+            return Promise.reject("Passing percentage should be in range 0 to 50")
+        }
+        return true;
+    })
 ], updateQuiz);
 
 // delete quiz
