@@ -78,7 +78,7 @@ const Dashboard = () => {
                 <Navbar />
                 <div className='h-2/5 flex flex-col items-center sm:grid sm:place-items-center sm:grid-flow-col sm:grid-cols-4 sm:grid-rows-4 lg:grid-cols-6 lg:grid-rows-6 lg:gap-y-0 '>
                     <img className='h-40 w-40 mt-2.5 sm:mt-0 sm:w-auto sm:h-3/5 sm:col-start-1 sm:col-end-3 sm:row-span-4 lg:col-start-3 lg:row-span-6' src={defaultProfile} alt='profile-image' />
-                    <h1 className='text-3xl sm:text-5xl sm:col-start-3 sm:row-start-2 text-center md:font-semibold lg:col-start-4 lg:row-start-3 max-w-28 sm:max-w-full h-14 sm:min-h-16 whitespace-nowrap overflow-x-auto [&::-webkit-scrollbar]:hidden' title={userDetails.name}>{userDetails.name};las;ldkas;dlk;lasdk;alsdk;alsdk;asldk;asldk;asldk;asldk;asld</h1>
+                    <h1 className='text-3xl sm:text-5xl sm:col-start-3 sm:row-start-2 text-center md:font-semibold lg:col-start-4 lg:row-start-3 max-w-28 sm:max-w-full h-14 sm:min-h-16 whitespace-nowrap overflow-x-auto [&::-webkit-scrollbar]:hidden' title={userDetails.name}>{userDetails.name}</h1>
                     <p className='text-[14px] sm:text-2xl sm:col-start-3 sm:row-start-3 lg:col-start-4 lg:row-start-4 text-[#B9B9B9] md:font-semibold'>{userDetails.email}</p>
                     <button className='absolute top-52 right-20 sm:top-0 sm:right-0 sm:relative text-3xl sm:text-6xl sm:col-start-4 sm:row-start-2 lg:col-start-5 lg:row-start-2 lg:row-span-3 lg:-ml-36' onClick={() => setIsEditing(true)}><HiPencilAlt /></button>
                 </div>
