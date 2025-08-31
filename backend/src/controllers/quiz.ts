@@ -45,7 +45,7 @@ const getQuiz = async (req: Request, res: Response, next: NextFunction) => {
             return;
         }
         const quizId = req.params.quizId;
-        const quiz = await Quiz.findById(quizId, { name: 1, questions_list: 1, answers: 1, created_by: 1 });
+        const quiz = await Quiz.findById(quizId, { name: 1, questions_list: 1, answers: 1, created_by: 1, passing_percentage: 1 });
         if (!quiz) {
             const err = new ProjectError("Quiz Not Found");
             err.statusCode = 404;
@@ -120,7 +120,7 @@ const deleteQuiz = async (req: Request, res: Response, next: NextFunction) => {
             err.statusCode = 405;
             throw err;
         }
-        const user = await User.findById(req.userId,{createdQuizCount:1});
+        const user = await User.findById(req.userId, { createdQuizCount: 1 });
         if (user) {
             user.createdQuizCount -= 1;
             await user.save();
