@@ -86,10 +86,10 @@ const Review = () => {
 
     const reviewsList = reviews.map((review: ReviewInterface) => {
         return (
-            <li id={review._id} key={review._id} className='text-3xl flex my-2 w-full h-max rounded-2xl bg-li justify-center '>
+            <li id={review._id} key={review._id} className='text-xl text-black md:text-2xl lg:text-3xl flex my-2 w-full h-max rounded-2xl bg-li justify-center '>
                 <div className='w-95/100 flex flex-col gap-3 py-4 break-words'>
                     {review.feedback}
-                    <div className='text-xl flex w-full justify-between *:text-[#B3B3B3] font-semibold'>
+                    <div className='text-[12px] sm:text-[16px] md:text-xl flex w-full justify-between *:text-[#B3B3B3] font-semibold'>
                         <span>by : {review.userName}</span><span>rating : {review.rating}/5</span>
                     </div>
                 </div>
@@ -102,13 +102,13 @@ const Review = () => {
         <div className='w-full h-full relative'>
             <div className={`w-full h-full ${isEditing ? 'blur-xs pointer-events-none' : ''}`}>
                 <Header />
-                <h1 className='w-3/5 h-2/12 mx-auto grid place-items-center text-4xl whitespace-nowrap overflow-x-auto [&::-webkit-scrollbar]:hidden font-semibold' >
+                <h1 className='w-3/5 h-2/12 mx-auto grid place-items-center text-2xl sm:text-3xl md:text-4xl whitespace-nowrap overflow-x-auto [&::-webkit-scrollbar]:hidden md:font-semibold' >
                     {params.quizName}
                 </h1>
-                <div className='flex justify-center items-center w-full *:w-4/5'>
+                <div className='flex justify-center items-center w-full *:w-90/100 md:*:w-4/5'>
                     <div className=' w-9/10 h-1/12 flex justify-between'>
-                        <h1 className={`${myReview.rating !== -1 ? 'w-1/5' : 'w-1/7'} text-4xl flex items-center justify-between font-semibold
-                        [&_button]:bg-button [&_button]:min-w-9 [&_button]:min-h-9 [&_button]:rounded-full [&_button]:text-2xl [&_button]:grid [&_button]:place-items-center`}>
+                        <h1 className={`${myReview.rating !== -1 ? 'w-1/5' : 'w-1/7'} text-2xl sm:text-3xl md:text-4xl flex items-center justify-between md:font-semibold 
+                        [&_button]:bg-button [&_button]:ml-3 [&_button]:min-w-7 [&_button]:min-h-7 lg:[&_button]:min-w-9 lg:[&_button]:min-h-9 [&_button]:rounded-full [&_button]:text-xl lg:[&_button]:text-2xl [&_button]:grid [&_button]:place-items-center`}>
                             Reviews
                             <button onClick={() => { setIsEditing(true) }}>
                                 {myReview.rating !== -1 ? <HiPencilAlt title='Edit' /> : <TiPlus title='Add' />}
@@ -122,14 +122,14 @@ const Review = () => {
                         <Button value='Go to quiz' onClick={() => { navigate(-1) }} />
                     </div>
                 </div>
-                <div className='flex justify-center items-center w-full h-2/3 my-2 *:w-4/5'>
+                <div className='flex justify-center items-center w-full h-2/3 my-2 *:w-95/100 md:*:w-4/5'>
                     <ul className='h-full overflow-auto custom-scrollbar pr-3'>
                         {reviewsList.length ? reviewsList : 'No reviews till now. Be the first to add one.'}
                     </ul>
                 </div>
             </div>
 
-            <div className={`${isEditing ? 'scale-100' : 'scale-0'} transition-[scale] absolute w-3/5 h-4/5 flex flex-col items-center justify-center gap-4 bg-quiz-view-bg top-1/10 left-1/5 rounded-3xl`}>
+            <div className={`${isEditing ? 'scale-100' : 'scale-0'} transition-[scale] absolute w-full h-full md:w-3/5 sm:h-4/5 flex flex-col items-center justify-center gap-4 bg-quiz-view-bg top-0 sm:top-1/10 md:left-1/5 md:rounded-3xl`}>
                 <div className='flex gap-5 text-black [&_label]:flex [&_label]:flex-col [&_label]:items-center text-2xl font-semibold'>
                     <p>Rating: </p>
                     <label htmlFor='1'><input type='radio' className='custom-radio-button' name='rating' onClick={() => { setRating(1) }} />1</label>

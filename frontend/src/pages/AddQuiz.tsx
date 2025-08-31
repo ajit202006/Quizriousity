@@ -106,7 +106,7 @@ const AddQuiz = () => {
 
     const questionsList = questions.map((_, index) => {
         return (
-            <li className='w-11/12 my-10' id={'q' + index} key={'q' + index} >
+            <li className='w-11/12 my-5 sm:my-7 md:my-10' id={'q' + index} key={'q' + index} >
                 Q {index + 1} : <input className='border-b-1 w-10/12' type='text' placeholder='Enter your question here...' onChange={(e) => { handleChangeQuestion(e, index) }} defaultValue={_.question} autoComplete='off' />
                 <div className='w-full flex flex-col '>
                     <h1>Options :-</h1>
@@ -130,7 +130,7 @@ const AddQuiz = () => {
                     </form>
                     <label htmlFor={'ans_' + index}>
                         Correct Option:
-                        <input className='text-center ml-3 w-1/5' id={'ans_' + index} type='text' minLength={1} maxLength={1} pattern='[0-9]' placeholder='1, 2, 3 or 4' onChange={(e) => { handleChangeAnswer(e, index) }} autoComplete='off' />
+                        <input className='text-center ml-2 sm:ml-3 w-2/5 sm:w-1/5' id={'ans_' + index} type='text' minLength={1} maxLength={1} pattern='[0-9]' placeholder='1, 2, 3 or 4' onChange={(e) => { handleChangeAnswer(e, index) }} autoComplete='off' />
                     </label>
                 </div>
             </li>
@@ -141,24 +141,24 @@ const AddQuiz = () => {
         <div className='w-full h-full flex flex-col'>
             <Header />
             <div className='flex flex-col items-center justify-around overflow-y-auto custom-scrollbar'>
-                <h1 className='min-h-1/8 text-4xl grid place-items-center'>Create a Quiz</h1>
-                <div className='w-full h-max flex flex-col items-center justify-between bg-quiz-view-bg text-black gap-3 py-10 *:text-2xl *:font-semibold *:w-4/5 [&_input]:outline-none [&_input]:px-1 [&_input]:border-b-1'>
+                <h1 className='min-h-1/15 sm:min-h-1/10 lg:min-h-1/8 text-xl sm:text-2xl md:text-3xl lg:text-4xl grid place-items-center'>Create a Quiz</h1>
+                <div className='w-full h-max flex flex-col items-center justify-between bg-quiz-view-bg text-black gap-3 py-10 md:*:text-xl  lg:*:text-2xl *:font-semibold *:w-11/12 lg:*:w-4/5 [&_input]:outline-none [&_input]:px-1 [&_input]:border-b-1'>
                     <label htmlFor='quiz-name'>
                         Quiz name :
-                        <input className='border-b-2 outline-none w-lg' type='text' placeholder='Enter a unique quiz name...' ref={quizNameRef} />
+                        <input className='border-b-2 outline-none md:w-lg' type='text' placeholder='Enter a unique quiz name...' ref={quizNameRef} />
                     </label>
                     <label htmlFor='quiz-name'>
                         Passing percentage :
-                        <input className='border-b-2 outline-none  ml-2 [&::-webkit-inner-spin-button]:hidden ' type='number' placeholder='0 to 50 ( optional )...' ref={percentRef} />
+                        <input className='border-b-2 outline-none sm:ml-2 [&::-webkit-inner-spin-button]:hidden' type='number' placeholder='0 to 50 ( optional )...' ref={percentRef} />
                     </label>
                     <h2>Questions</h2>
                     <hr />
-                    <ul className='text-xl py-10 my-4 flex flex-col items-center bg-[#B4E0FF] rounded-2xl'>
+                    <ul className='sm:text-xl md:py-10 flex flex-col items-center bg-[#B4E0FF] rounded-2xl'>
                         {questionsList}
                     </ul>
                     <label className='flex' htmlFor='addbtn'>
                         Add a question
-                        <button id='addbtn' className='bg-button text-white rounded-full text-2xl min-w-8 min-h-8 grid place-items-center ml-2' onClick={addQuestion}><TiPlus title='Add' /></button>
+                        <button id='addbtn' className='bg-button text-white rounded-full text-xl md:text-2xl min-w-3 min-h-3 sm:min-w-6 sm:min-h-6 md:min-w-8 md:min-h-8 grid place-items-center ml-1 md:ml-2' onClick={addQuestion}><TiPlus title='Add' /></button>
                     </label>
                     <div className='flex justify-center text-white' >
                         <Button value='Save' onClick={saveQuiz} />

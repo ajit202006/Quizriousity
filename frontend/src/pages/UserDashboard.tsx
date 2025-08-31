@@ -60,7 +60,7 @@ const UserDashboard = () => {
     return (
         <div className='w-full h-full flex flex-col'>
             <Navbar />
-            <div className='h-2/5 flex relative items-center justify-center gap-8'>
+            <div className='h-1/4 lg:h-2/5 flex relative items-center justify-center gap-8'>
                 <img className='h-3/5' src={defaultProfile} alt="profile-image" />
                 <h1 className='text-5xl text-center font-semibold whitespace-nowrap overflow-x-auto [&::-webkit-scrollbar]:hidden' title={userDetails.name}>{userDetails.name}</h1>
                 <BackButton />
@@ -69,8 +69,8 @@ const UserDashboard = () => {
             <div className='flex min-h-6/10 overflow-x-scroll snap-x snap-mandatory *:snap-center [&::-webkit-scrollbar]:hidden'>
                 <section className='flex flex-col items-center justify-around h-full min-w-full'>
                     <hr className='w-screen'/>
-                    <h1 className='text-4xl' >Profile</h1>
-                    <div className='w-4/5 text-2xl grid gap-2 *:flex *:justify-between *:px-40'>
+                    <h1 className='text-2xl md:text-3xl lg:text-4xl' >Profile</h1>
+                    <div className=' grid gap-2 w-95/100 lg:w-4/5 text-xl md:text-2xl *:flex *:justify-between *:px-10 md:*:px-20 lg:*:px-40'>
                         <hr />
                         <p>Quizzes created <span>{userDetails.createdQuizCount}</span></p>
                         <hr />

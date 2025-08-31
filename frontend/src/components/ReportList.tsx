@@ -39,10 +39,10 @@ const ReportList = () => {
     const reportList = reports.map((report: ReportInterface) => {
         return (
             <li className='flex justify-between' id={report._id}>
-                {report.quizName}
-                <div className='flex justify-around w-1/4'>
+                <span className='w-3/5 overflow-auto [&::-webkit-scrollbar]:hidden'>{report.quizName}</span>
+                <div className='flex justify-around w-2/5 sm:w-1/3 lg:w-1/4'>
                     <p>{report.score}/{report.total}</p>
-                    <span className={`w-1/4 text-center py-auto rounded-full ${report.result === 'Pass' ? 'bg-[#2BFF40]' : 'bg-[#EC0000]'}`}>{report.result}</span>
+                    <span className={`w-1/3 lg:w-1/4 grid place-items-center text-center text-xs sm:text-2xl lg:py-auto rounded-full ${report.result === 'Pass' ? 'bg-[#2BFF40]' : 'bg-[#EC0000]'}`}>{report.result}</span>
                 </div>
 
             </li>
@@ -50,7 +50,7 @@ const ReportList = () => {
     });
 
     return (
-        <div className='h-11/12 *:h-full py-5'>
+        <div className='h-11/12 *:h-full py-2 lg:py-5'>
             <ListWrapper>
                 {reportList.length ? reportList.reverse() : 'There are no reports'}
             </ListWrapper>
