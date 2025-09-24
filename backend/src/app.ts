@@ -13,7 +13,7 @@ import { ReturnResponse } from "./util/interfaces";
 
 const app = express();
 const connectionString = process.env.CONNECTION_STRING || "" ;
-const clientURL = "http://localhost:5173"
+const clientURL:string = process.env.CLIENT_URL || "";
 
 declare global{
     namespace Express{
