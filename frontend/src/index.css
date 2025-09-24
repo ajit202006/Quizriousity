@@ -1,0 +1,35 @@
+@import url('https://fonts.cdnfonts.com/css/k2d');
+@import 'tailwindcss';
+
+@theme {
+  --color-background: #429BB7;
+  --color-button: #00B7FF;
+  --color-header: #0674A0;
+  --color-input: #7dcdff;
+  --color-quiz-view-bg: #DFEFF4;
+  --color-li:#DFEFF4;
+}
+
+* {
+  font-family: 'K2D light', sans-serif;
+  scroll-behavior: smooth;
+}
+
+.active {
+  @apply lg:bg-background;
+}
+
+.list-item {
+  @apply overflow-auto [&::-webkit-scrollbar]:hidden whitespace-nowrap;
+}
+
+.list {
+  @apply h-full p-4 flex flex-col overflow-auto gap-1.5 md:gap-3.5 text-xl lg:text-2xl md:font-semibold [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#B9D5FF] [&::-webkit-scrollbar-thumb]:bg-[#0674A0] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:rounded-full *:flex *:items-center *:h-1/6 sm:*:h-1/5 md:*:min-h-1/7 *:bg-li text-black *:rounded-xl *:px-2.5 sm:*:px-4 lg:*:px-7;
+}
+
+.custom-scrollbar {
+  @apply [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#B9D5FF] [&::-webkit-scrollbar-thumb]:bg-[#0674A0] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:rounded-full ;
+}
+.custom-radio-button{
+  @apply appearance-none w-6 h-6 sm:w-9 sm:h-9 bg-button border-button rounded-full border-0 transition-all checked:border-6 sm:checked:border-10 checked:bg-white;
+}
